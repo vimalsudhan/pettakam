@@ -15,13 +15,17 @@ Note : This library needs a writable directory where cached variables are stored
 USAGE:
 ------
 
-	$pettakam=new Pettakam(array('repo'=>'cache_dir'));			/* initialize pettakam with cache repo linked to 'cache_dir' directory
-	if(($employees=$pettakam->get("employees")===false)			/* check whether data 'employees' exists in cache  */
-	{
-		$employees='';							/* Cache is not available. do your database query or any other means to create data */
-		$pettakam->store("employees",$employees,"500","employee_data");	/* Store it in cache. Expiration time of 500 secs(optional) and group the cache to 'employee_data' group (optional) */
-	}
-	// got the employees either from cache or new create. proceed with the data variable...
+   $pettakam=new Pettakam(array('repo'=>'cache_dir'));			/* initialize lib with cache to 'cache_dir' DIR */
+   if(($employees=$pettakam->get("employees")===false)			/* check whether data 'employees' exists in cache  */
+   {
+	$employees='<<EXECUTE QUERY>>';					/* Cache is not available. 
+									   do your database query 
+									   or by any other means to create data */
+	$pettakam->store("employees",$employees,"500","employee_data"); /* Store it in cache. 
+									 Expiration time of 500 secs(optional) 
+									 and group the cache to 'employee_data' group (optional) */
+   }
+   	// got the employees either from cache or new create. proceed with the data variable...
 	// Cool!
 
 
@@ -37,7 +41,7 @@ Initing
 You need to set a directory where cached variables are stored. In this case, 'cache' and the directory should have write permission.
 
 You can also set 'ext' which will be appended with '_'(underscore) to the created cached files, in order to identify cache files from others. Default is 'pkm'
-	$config=array(
+Ex:	$config=array(
 			'repo'=>'cache'
 			'ext'=>'cac'
 			);
@@ -52,7 +56,9 @@ where
 	$name		-	name for your variable. Unique identifier
 	$val		-	value of the variable to be cached. Can be of any data type except resource-type.
 	$expires	-	expiration time in secs for the cache. Default is 600 secs (10 mins)
-	$group		-	Set to a group name to group your cached variables. This is useful when you need to clear a set of cached variables that 					needs updated because of change in database or any. (String) & (optional)
+	$group		-	(String) & (optional)Set to a group name to group your cached variables.
+				This is useful when you need to clear a set of cached variables 
+				that needs update because of change in database or any.
 
 Example:	$pettakam->store("msg","Hello, I am cached",40,"usermsg")
 
